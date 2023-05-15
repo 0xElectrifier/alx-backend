@@ -45,17 +45,17 @@ class Server:
         return self.__dataset
 
     def get_page(self, page: int = 1, page_size: int = 10) -> List[List]:
-            assert isinstance(page, int) and page > 0
-            assert isinstance(page_size, int) and page_size > 0
-            pages = []
-            page_range = index_range(page, page_size)
-            if (page_range is not None):
-                start = page_range[0]
-                end = page_range[1]
-                dataset = self.dataset()
-                try:
-                    pages = [dataset[i] for i in range(start, end)]
-                except IndexError:
-                    pass
-            
-            return pages
+        assert isinstance(page, int) and page > 0
+        assert isinstance(page_size, int) and page_size > 0
+        pages = []
+        page_range = index_range(page, page_size)
+        if (page_range is not None):
+            start = page_range[0]
+            end = page_range[1]
+            dataset = self.dataset()
+            try:
+                pages = [dataset[i] for i in range(start, end)]
+            except IndexError:
+                pass
+
+        return pages
