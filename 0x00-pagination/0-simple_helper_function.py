@@ -2,6 +2,7 @@
 """Module for Task_0, defines a function `index_range`"""
 from typing import Tuple, Union
 
+
 def index_range(page: int, page_size: int) -> Union[Tuple[int, int], None]:
     """Returns a tuple of size two containing a start and end index of items
     Args:
