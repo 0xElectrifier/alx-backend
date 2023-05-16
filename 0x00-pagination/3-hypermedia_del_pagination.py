@@ -45,6 +45,7 @@ class Server:
         dataset = self.indexed_dataset()
         data_length = len(dataset)
         assert 0 <= index < data_length
+        start_idx = index
         data = []
         for i in range(page_size):
             while True:
@@ -58,7 +59,7 @@ class Server:
         else:
             next_index = None
         hyper_data = {
-            'index': index,
+            'index': start_idx,
             'next_index': next_index,
             'page_size': page_size,
             'data': data
