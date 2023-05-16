@@ -41,17 +41,11 @@ class Server:
 
     def get_hyper_index(self, index: int = None, page_size: int = 10) -> Dict:
         """Returns paginated data
-        hyper_data = {
-            'index':
-        }
-        assert index >= len(
         """
         dataset = self.indexed_dataset()
         data_length = len(dataset)
         assert 0 <= index < data_length
-        response = {}
         data = []
-        response['index'] = index
         for i in range(page_size):
             while True:
                 curr = dataset.get(index)
@@ -59,11 +53,15 @@ class Server:
                 if curr is not None:
                     break
             data.append(curr)
-
-        response['data'] = data
-        response['page_size'] = len(data)
         if dataset.get(index):
-            response['next_index'] = index
+            next_index = index
         else:
-            response['next_index'] = None
-        return response
+            next_index = None
+        hyper_data = {
+            'index': index,
+            'next_index': next_index,
+            'page_size': page_size,
+            'data': data
+        }
+
+        return hyper_data
