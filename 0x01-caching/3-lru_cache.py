@@ -9,7 +9,7 @@ class LRUCache(BaseCaching):
     def __init__(self):
         """Initializes a LRUCache instance"""
         super().__init__()
-        self.__queue = self.cache_data.keys()
+        self.__queue = list(self.cache_data.keys())
 
     def put(self, key, item):
         """
@@ -20,15 +20,15 @@ class LRUCache(BaseCaching):
         if key is None or item is None:
             return None
         if cache_count == BaseCaching.MAX_ITEMS:
-            if len(self.__queue) != 0:
-                discarded_item_key = self.__queue[0]
-            else:
-                discarded_item_key = None
+            discarded_item_key = self.__queue[0]
+            self.__queue.remove(discarded_item_key)
             self.cache_data.pop(discarded_item_key)
             print("DISCARD: {}".format(discarded_item_key))
 
         self.cache_data[key] = item
-        self.__queue = [key, *self.__queue]  # Add key of item to start of list
+        if key in self.__queue:
+            self.__queue.remove(key)
+        self.__queue.append(key)  # Add key of item to start of list
 
     def get(self, key):
         """Retrieves the value corresponding to @key in self.cache_data
