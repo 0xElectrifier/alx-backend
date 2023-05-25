@@ -6,6 +6,7 @@ from flask_babel import Babel
 app = Flask(__name__)
 babel = Babel(app)
 
+
 def get_locale():
     """Returns the locale from request"""
     accepted_languages = request.accept_languages
@@ -13,7 +14,9 @@ def get_locale():
     return (accepted_languages.best_match(app.config["LANGUAGES"]) or
             app.config["BABEL_DEFAULT_LOCALE"])
 
+
 babel.init_app(app, locale_selector=get_locale)
+
 
 @app.route("/")
 def display_basic_page():
