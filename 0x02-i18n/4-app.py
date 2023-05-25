@@ -20,7 +20,7 @@ app.config.from_object(Config)
 def get_locale():
     """Returns the locale requested via the 'locale' parameter"""
     args = request.args.get("locale")
-    support_langs = ["en", "fr"]
+    supported_langs = app.config["LANGUAGES"]
     if args is not None and args in supported_langs:
         return args
     return request.accept_languages.best_match(app.config["LANGUAGES"])
