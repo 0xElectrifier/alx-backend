@@ -3,19 +3,26 @@
 from flask import (render_template, request, Flask)
 from flask_babel import Babel
 
+
+class Config:
+    """Configures available languages in our app"""
+    LANGUAGES = ["en", "fr"]
+    BABEL_DEFAULT_LOCALE = "en"
+    BABEL_DEFAULT_TIMEZONE = "UTC"
+
+
 app = Flask(__name__)
 babel = Babel(app)
+app.config.from_object(Config)
 
 
+@babel.localeselector
 def get_locale():
     """Returns the locale from request"""
     accepted_languages = request.accept_languages
 
     return (accepted_languages.best_match(app.config["LANGUAGES"]) or
             app.config["BABEL_DEFAULT_LOCALE"])
-
-
-babel.init_app(app, locale_selector=get_locale)
 
 
 @app.route("/")
