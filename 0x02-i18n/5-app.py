@@ -25,10 +25,14 @@ def get_locale():
         return args
     return request.accept_languages.best_match(app.config["LANGUAGES"])
 
+
+# babel.init_app(app, locale_selector=get_locale)
+
+
 @app.route("/")
 def display_basic_page():
     """Displays a simple page to test Babel connection"""
-    return render_template("5-index.html", g=g)
+    return render_template("5-index.html")
 
 
 users = {
@@ -57,10 +61,7 @@ def before_request():
     """Creates a global 'user' variable if the 'login_as' parameter was passed
     """
     user = get_user()
-    if user is not None:
-        g.user = user
-    else:
-        g.user = None
+    g.user = user
 
 
 if __name__ == "__main__":
