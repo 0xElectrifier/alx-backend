@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Module to """
+"""Module to handle locale based on several factors priority factors"""
 from flask import (g, render_template, request, Flask)
 from flask_babel import Babel
 
@@ -47,7 +47,7 @@ def before_request():
 
 @babel.localeselector
 def get_locale():
-    """Returns the locale requested via the 'locale' parameter"""
+    """Returns the locale requested based on several priorities"""
 
     supported_langs = app.config["LANGUAGES"]
     # Handling priority 1: Locale from URL parameters
