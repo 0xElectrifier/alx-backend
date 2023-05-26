@@ -29,12 +29,6 @@ def get_locale():
 # babel.init_app(app, locale_selector=get_locale)
 
 
-@app.route("/")
-def display_basic_page():
-    """Displays a simple page to test Babel connection"""
-    return render_template("5-index.html")
-
-
 users = {
     1: {"name": "Balou", "locale": "fr", "timezone": "Europe/Paris"},
     2: {"name": "Beyonce", "locale": "en", "timezone": "US/Central"},
@@ -47,7 +41,7 @@ def get_user():
     """Returns information about a user as a dictionary containing
     mock user data
     """
-    id = request.args.get("login_as")
+    id = request.args.get("login_as", None)
     try:
         id = int(id)
     except (ValueError, TypeError):
@@ -62,6 +56,12 @@ def before_request():
     """
     user = get_user()
     g.user = user
+
+
+@app.route("/")
+def display_basic_page():
+    """Displays a simple page to test Babel connection"""
+    return render_template("5-index.html")
 
 
 if __name__ == "__main__":
