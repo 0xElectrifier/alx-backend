@@ -16,7 +16,6 @@ babel = Babel(app)
 app.config.from_object(Config)
 
 
-@babel.localeselector
 def get_locale():
     """Returns the locale requested via the 'locale' parameter"""
     args = request.args.get("locale")
@@ -24,7 +23,7 @@ def get_locale():
     if args is not None and args in supported_langs:
         return args
     return request.accept_languages.best_match(app.config["LANGUAGES"])
-
+babel.init_app(app, locale_selector=get_locale)
 
 @app.route("/")
 def display_basic_page():
@@ -47,7 +46,7 @@ def get_user():
     id = request.args.get("login_as")
     try:
         id = int(id)
-    except TypeError:
+    except (ValueError, TypeError):
         id = None
     user = users.get(id)
     return user
