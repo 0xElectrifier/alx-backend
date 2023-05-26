@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Module to Force locale with URL Parameter"""
-from flask import (render_template, request, Flask)
+from flask import (g, render_template, request, Flask)
 from flask_babel import Babel
 
 
@@ -16,7 +16,6 @@ babel = Babel(app)
 app.config.from_object(Config)
 
 
-@babel.localeselector
 def get_locale():
     """Returns the locale requested via the 'locale' parameter"""
     args = request.args.get("locale")
@@ -26,10 +25,12 @@ def get_locale():
     return request.accept_languages.best_match(app.config["LANGUAGES"])
 
 
+babel.init_app(app, locale_selector=get_locale)
+
 @app.route("/")
 def display_basic_page():
     """Displays a simple page to test Babel connection"""
-    return render_template("4-index.html")
+    return render_template("5-index.html", g=g)
 
 
 users = {
@@ -45,14 +46,23 @@ def get_user():
     mock user data
     """
     id = request.args.get("login_as")
+    try:
+        id = int(id)
+    except TypeError:
+        id = None
     user = users.get(id)
     return user
 
+
 @app.before_request
 def before_request():
+    """Creates a global 'user' variable if the 'login_as' parameter was passed
+    """
     user = get_user()
     if user is not None:
-        flask.g.user = user
+        g.user = user
+    else:
+        g.user = None
 
 
 if __name__ == "__main__":
