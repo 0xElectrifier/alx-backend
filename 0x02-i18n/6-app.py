@@ -45,7 +45,7 @@ def before_request():
     g.user = user
 
 
-@babel.localeselector
+#@babel.localeselector
 def get_locale():
     """Returns the locale requested based on several priorities"""
 
@@ -53,7 +53,6 @@ def get_locale():
     # Handling priority 1: Locale from URL parameters
     url_locale = request.args.get("locale")
     if url_locale is not None and url_locale in supported_langs:
-        print("Req - Header1")
         return url_locale
     # Handling priority 2: Locale from user settings
     if g.user is not None:
@@ -71,13 +70,13 @@ def get_locale():
     return app.config["BABEL_DEFAULT_LOCALE"]
 
 
-# babel.init_app(app, locale_selector=get_locale)
+babel.init_app(app, locale_selector=get_locale)
 
 
 @app.route("/")
 def display_basic_page():
     """Displays a simple page to test Babel connection"""
-    return render_template("5-index.html")
+    return render_template("6-index.html")
 
 
 if __name__ == "__main__":

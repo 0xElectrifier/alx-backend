@@ -60,7 +60,6 @@ def get_locale():
     if g.user is not None:
         user_set = g.user.get("locale")
         if user_set is not None and user_set in supported_langs:
-            print("Req - Header2")
             return user_set
     # Handling priority 3: Locale from request header
     req_header = request.accept_languages.best_match(app.config["LANGUAGES"])
@@ -96,7 +95,7 @@ def get_timezone():
 @app.route("/")
 def display_basic_page():
     """Displays a simple page to test Babel connection"""
-    return render_template("5-index.html")
+    return render_template("7-index.html")
 
 
 if __name__ == "__main__":
